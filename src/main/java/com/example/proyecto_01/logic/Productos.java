@@ -26,13 +26,13 @@ public class Productos {
     @Column(name = "id_factura")
     private int idFactura;
     @ManyToOne
-    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
+    @JoinColumn(name = "id_proveedor2", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedores proveedoresByIdProveedor;
     @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
+    @JoinColumn(name = "id_cliente2", referencedColumnName = "id_cliente", nullable = false)
     private Clientes clientesByIdCliente;
     @ManyToOne
-    @JoinColumn(name = "id_factura", referencedColumnName = "id_factura", nullable = false)
+    @JoinColumn(name = "id_factura2", referencedColumnName = "id_factura", nullable = false)
     private Facturas facturasByIdFactura;
 
     public int getIdProducto() {
