@@ -24,7 +24,7 @@ public class Clientes {
     @Column(name = "id_proveedor")
     private Integer idProveedor;
     @ManyToOne
-    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
+    @JoinColumn(name = "id_proveedor2", referencedColumnName = "id_proveedor")
     private Proveedores proveedoresByIdProveedor;
     @OneToMany(mappedBy = "clientesByIdCliente")
     private Collection<Facturas> facturasByIdCliente;
