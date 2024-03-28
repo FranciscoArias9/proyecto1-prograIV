@@ -8,5 +8,6 @@
 <h1 th:text="${nombre}">NOTHING</h1>
 <h1 th:text="${text}"></h1>
 <h1 th:text="${cliente.idCliente}"></h1>
+<h1 th:if="${cliente.getClave()==null}" th:text="${cliente.getClave()}"></h1>
 </body>
 </html>
