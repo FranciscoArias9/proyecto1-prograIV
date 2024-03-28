@@ -11,12 +11,12 @@ public class Facturas {
     @Id
     @Column(name = "id_factura")
     private int idFactura;
-    @Basic
-    @Column(name = "id_cliente")
-    private int idCliente;
-    @Basic
-    @Column(name = "id_proveedor")
-    private int idProveedor;
+    //@Basic
+    //@Column(name = "id_cliente")
+    //private int idCliente;
+    //@Basic
+    //@Column(name = "id_proveedor")
+    //private int idProveedor;
     @Basic
     @Column(name = "monto")
     private Object monto;
@@ -37,21 +37,21 @@ public class Facturas {
         this.idFactura = idFactura;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
+    //public int getIdCliente() {
+        //return idCliente;
+    //}
 
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
+    //public void setIdCliente(int idCliente) {
+        //this.idCliente = idCliente;
+    //}
 
-    public int getIdProveedor() {
-        return idProveedor;
-    }
+    //public int getIdProveedor() {
+        //return idProveedor;
+    //}
 
-    public void setIdProveedor(int idProveedor) {
-        this.idProveedor = idProveedor;
-    }
+    //public void setIdProveedor(int idProveedor) {
+        //this.idProveedor = idProveedor;
+    //}
 
     public Object getMonto() {
         return monto;
@@ -66,12 +66,12 @@ public class Facturas {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Facturas facturas = (Facturas) o;
-        return idFactura == facturas.idFactura && idCliente == facturas.idCliente && idProveedor == facturas.idProveedor && Objects.equals(monto, facturas.monto);
+        return idFactura == facturas.idFactura && Objects.equals(monto, facturas.monto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idFactura, idCliente, idProveedor, monto);
+        return Objects.hash(idFactura, monto);
     }
 
     public Clientes getClientesByIdCliente() {
