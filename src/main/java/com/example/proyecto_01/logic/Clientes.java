@@ -20,11 +20,8 @@ public class Clientes {
     @Basic
     @Column(name = "clave")
     private String clave;
-    @Basic
-    @Column(name = "id_proveedor")
-    private Integer idProveedor;
     @ManyToOne
-    @JoinColumn(name = "id_proveedor2", referencedColumnName = "id_proveedor")
+    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
     private Proveedores proveedoresByIdProveedor;
     @OneToMany(mappedBy = "clientesByIdCliente")
     private Collection<Facturas> facturasByIdCliente;
@@ -63,25 +60,13 @@ public class Clientes {
         this.clave = clave;
     }
 
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Clientes clientes = (Clientes) o;
-        return idCliente == clientes.idCliente && Objects.equals(nombre, clientes.nombre) && Objects.equals(usuario, clientes.usuario) && Objects.equals(clave, clientes.clave) && Objects.equals(idProveedor, clientes.idProveedor);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idCliente, nombre, usuario, clave, idProveedor);
+        return idCliente == clientes.idCliente && Objects.equals(nombre, clientes.nombre) && Objects.equals(usuario, clientes.usuario) && Objects.equals(clave, clientes.clave);
     }
 
     public Proveedores getProveedoresByIdProveedor() {
