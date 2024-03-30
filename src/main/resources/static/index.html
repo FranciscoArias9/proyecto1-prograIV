@@ -1,21 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Facturacion</title>
+    <meta charset="utf-8">
+    <title> Facturacion</title>
+    <meta name="description" content="pagina web de blog de cafe">
+
+
+    <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
+
+
 </head>
+
 <body>
-    <h1>INICIO DE SECION</h1>
-    <form action="/login" method="POST">
-        <h2>Login</h2>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+<header class="footer">
 
-        <input type="submit" value="Login">
-    </form>
+    <div class="contenedor contenedor--header">
+        <div class="barra">
+            <a class="logo" href="index.html">
+                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
+            </a>
+
+            <nav class="navegacion">
+                <a href="nosotros.html" class="navegacion__enlace">SERVICIO</a>
+                <a href="avisos.html" class="navegacion__enlace">SERVICIO</a>
+                <a href="contacto.html" class="navegacion__enlace">SERVICIO</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</header>
+<div class="contenedor contenido-principal">
+
+    <main class="blog ">
+
+
+
+        <!-- Formulario de inicio de sesión -->
+        <div class="formulario-login">
+            <h1>INICIO DE SESIÓN</h1>
+            <form action="/login" method="POST">
+                <h2>Login</h2>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <input type="submit" class="boton boton--primario" value="Login">
+            </form>
+        </div>
+
+    </main>
+
+
+
+
+</div>
+
+<footer class="footer">
+
+    <div class="contenedor-foater">
+        <div class="barra-foater">
+            <a class="logo-foater" href="index.html">
+                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
+                </h1>
+            </a>
+
+            <nav class="navegacion-foater">
+                <a href="nosotros.html" class="navegacion__enlace-foater">SERVICIO</a>
+                <a href="avisos.html" class="navegacion__enlace-foater">SERVICIO</a>
+                <a href="contacto.html" class="navegacion__enlace-foater">SERVICIO</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+
 </body>
 </html>
+
+
+
+
+
