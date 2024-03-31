@@ -2,10 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Producto</title>
+    <title>Registrar Factura</title>
     <link rel="stylesheet" href="../static/styles.css">
+    <!-- Incluye aquí tu CSS para estilos, si es necesario -->
 </head>
 <body>
+
 
 <header class="footer">
 
@@ -23,48 +25,45 @@
                 <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
             </nav>
 
-
         </div>
 
     </div>
 
-</header>
 
+<div class = "contenedor contenido-principal">
 
-<div class="contenedor contenido-principal">
+    <h2>Registrar una nueva Factura</h2>
+    <form th:action="@{/facturas/add}" th:object="${factura}" method="post">
 
-    <h2>Registrar un nuevo Producto</h2>
-    <form th:action="@{/productos/add}" th:object="${producto}" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required/><br/>
+        <div>
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" name="clientesByIdCliente" required>
+                <option value="">Seleccione un Cliente</option>
+                <option th:each="cliente : ${clientes}"
+                        th:value="${cliente.idCliente}"
+                        th:text="${cliente.nombre}"></option>
+            </select>
+        </div>
 
-        <label for="valor">Valor:</label>
-        <input type="number" step="0.01" id="valor" name="valor" th:field="*{valor}" required/><br/>
+        <div>
+            <label for="proveedor">Proveedor:</label>
+            <select id="proveedor" name="proveedoresByIdProveedor" required>
+                <option value="">Seleccione un Proveedor</option>
+                <option th:each="proveedor : ${proveedores}"
+                        th:value="${proveedor.idProveedor}"
+                        th:text="${proveedor.nombre}"></option>
+            </select>
+        </div>
 
-        <!-- Si necesitas registrar también el ID de cliente y factura al crear un producto, puedes incluirlos como campos de entrada o listas desplegables similares a la de proveedores. Asumiendo que solo necesitas el ID del proveedor para este formulario -->
+        <div>
+            <label for="monto">Monto:</label>
+            <input type="number" id="monto" name="monto" th:field="*{monto}" step="0.01" required/>
+        </div>
 
-        <input type="submit" class="boton boton--primario" value="Registrar"/>
+        <!-- Agrega aquí más campos según sea necesario -->
+
+        <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
     </form>
-
-    <h2>Lista de Productos</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Valor</th>
-            <!-- Añadir más columnas según sea necesario -->
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="producto : ${productos}">
-            <td th:text="${producto.idProducto}"></td>
-            <td th:text="${producto.nombre}"></td>
-            <td th:text="${producto.valor}"></td>
-            <!-- Añadir más celdas según sea necesario -->
-        </tr>
-        </tbody>
-    </table>
 
 </div>
 

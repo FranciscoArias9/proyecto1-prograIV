@@ -26,6 +26,11 @@ public class Facturas {
     @ManyToOne
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedores proveedoresByIdProveedor;
+
+    @OneToMany(mappedBy = "facturaByIdFactura")
+    private Collection<Detalle_Factura> detalleFacturaByIdFactura;
+
+
     //@OneToMany(mappedBy = "facturasByIdFactura")//--
     //private Collection<Productos> productosByIdFactura;//--
 

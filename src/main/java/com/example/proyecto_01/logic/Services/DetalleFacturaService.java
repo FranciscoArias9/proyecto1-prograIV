@@ -1,0 +1,40 @@
+package com.example.proyecto_01.logic.Services;
+
+import com.example.proyecto_01.data.DetalleFacturaRepository;
+import com.example.proyecto_01.data.FacturaRepository;
+import com.example.proyecto_01.logic.Detalle_Factura;
+import com.example.proyecto_01.logic.Facturas;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
+public class DetalleFacturaService {
+    @Autowired
+    private DetalleFacturaRepository detalleFacturaRepository;
+
+    //@Autowired
+    //public DetalleFacturaService(DetalleFacturaRepository facturaRepository) {
+      //  this.detalleFacturaRepository = facturaRepository;
+    //}
+
+    public Detalle_Factura saveFactura(Detalle_Factura detalleFactura) {
+        return detalleFacturaRepository.save(detalleFactura);
+    }
+
+    public List<Detalle_Factura> findAllFacturas() {
+        return detalleFacturaRepository.findAll();
+    }
+
+    // Si necesitas buscar facturas específicas, por ejemplo, por cliente o fecha, puedes añadir esos métodos aquí.
+    public Detalle_Factura findFacturaById(Long id) {
+        return detalleFacturaRepository.findById(id).orElse(null);
+    }
+
+    // Ejemplo de método para eliminar una factura
+    public void deleteFactura(Long id) {
+        detalleFacturaRepository.deleteById(id);
+    }
+
+    // Puedes añadir más lógica específica del negocio relacionada con facturas si es necesario
+}

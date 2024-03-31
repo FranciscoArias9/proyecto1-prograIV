@@ -2,6 +2,7 @@ package com.example.proyecto_01.logic;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,9 @@ public class Productos {
     @ManyToOne
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedores proveedoresByIdProveedor;
+
+    @OneToMany(mappedBy = "productoByIdProducto")
+    private Collection<Detalle_Factura> detalleFacturaByIdProducto;
 
 
     public int getIdProducto() {
