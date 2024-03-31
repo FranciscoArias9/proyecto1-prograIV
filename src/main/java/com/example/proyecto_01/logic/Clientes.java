@@ -25,8 +25,6 @@ public class Clientes {
     private Proveedores proveedoresByIdProveedor;
     @OneToMany(mappedBy = "clientesByIdCliente")
     private Collection<Facturas> facturasByIdCliente;
-    @OneToMany(mappedBy = "clientesByIdCliente")
-    private Collection<Productos> productosByIdCliente;
 
     public int getIdCliente() {
         return idCliente;
@@ -85,11 +83,5 @@ public class Clientes {
         this.facturasByIdCliente = facturasByIdCliente;
     }
 
-    public Collection<Productos> getProductosByIdCliente() {
-        return productosByIdCliente;
-    }
 
-    public void setProductosByIdCliente(Collection<Productos> productosByIdCliente) {
-        this.productosByIdCliente = productosByIdCliente;
-    }
 }

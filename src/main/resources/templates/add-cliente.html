@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cliente</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+
+<header class="footer">
+
+    <div class="contenedor contenedor--header">
+        <div class="barra">
+            <a class="logo" >
+                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
+            </a>
+
+            <nav class="navegacion">
+                <a href="index.html" class="navegacion__enlace">FACTURAR</a>
+                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
+                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
+                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</header>
+
+<div class="contenedor contenido-principal">
+
+    <h2>Registrar un nuevo Cliente</h2>
+    <form th:action="@{/clientes/add}" th:object="${cliente}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" th:field="*{nombre}"/><br/>
+
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" th:field="*{usuario}"/><br/>
+
+        <label for="clave">Clave:</label>
+        <input type="password" id="clave" name="clave" th:field="*{clave}"/><br/>
+
+
+
+        <input type="submit" class="boton boton--primario" value="Registrar"/>
+    </form>
+
+    <h2>Lista de Clientes</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Usuario</th>
+            <th>Clave</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.nombre}"></td>
+            <td th:text="${cliente.usuario}"></td>
+            <td th:text="${cliente.clave}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<footer class="footer">
+
+    <div class="contenedor-foater">
+        <div class="barra-foater">
+            <a class="logo-foater" href="index.html">
+                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
+                </h1>
+            </a>
+
+            <nav class="navegacion-foater">
+                <a href="index.html" class="navegacion__enlace">FACTURAR</a>
+                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
+                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
+                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

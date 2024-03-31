@@ -1,0 +1,48 @@
+package com.example.proyecto_01.Presentation.Clients;
+
+
+
+import com.example.proyecto_01.logic.Clientes;
+import com.example.proyecto_01.logic.Productos;
+
+import com.example.proyecto_01.logic.Proveedores;
+import com.example.proyecto_01.logic.Services.ClienteService;
+import com.example.proyecto_01.logic.Services.ProductoService;
+import com.example.proyecto_01.logic.Services.ProveedorService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+
+@Controller
+public class ProductoController {
+
+    @Autowired
+    private ProductoService productoService;
+    @Autowired
+    private ProveedorService proveedorService;
+    @Autowired
+    private ClienteService clienteService;
+
+    @GetMapping("/productos/new")
+    public String showSignUpForm(Model model) {
+        model.addAttribute("producto", new Productos());
+        model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Agrega la lista de proveedores al modelo // Lista de productos
+        model.addAttribute("clientes", clienteService.findAllClientes()); // Agrega la lista de clientes al modelo
+        List<Productos> listaProductos = productoService.findAllProductos();
+        model.addAttribute("productos", listaProductos);
+        return "add-producto";
+    }
+
+    @PostMapping("/productos/add")
+    public String addProducto(Productos producto, Model model, HttpSession session) {
+
+        producto.setProveedoresByIdProveedor((Proveedores) session.getAttribute("proveedor"));
+        productoService.saveProducto(producto);
+        return "redirect:/productos/new";
+    }
+}

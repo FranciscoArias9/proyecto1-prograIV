@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Producto</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+
+<header class="footer">
+
+    <div class="contenedor contenedor--header">
+        <div class="barra">
+            <a class="logo" >
+                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
+            </a>
+
+            <nav class="navegacion">
+                <a href="index.html" class="navegacion__enlace">FACTURAR</a>
+                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
+                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
+                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="contenedor contenido-principal">
+
+    <h2>Registrar un nuevo Producto</h2>
+    <form th:action="@{/productos/add}" th:object="${producto}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required/><br/>
+
+        <label for="valor">Valor:</label>
+        <input type="number" step="0.01" id="valor" name="valor" th:field="*{valor}" required/><br/>
+
+        <!-- Si necesitas registrar también el ID de cliente y factura al crear un producto, puedes incluirlos como campos de entrada o listas desplegables similares a la de proveedores. Asumiendo que solo necesitas el ID del proveedor para este formulario -->
+
+        <input type="submit" class="boton boton--primario" value="Registrar"/>
+    </form>
+
+    <h2>Lista de Productos</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Valor</th>
+            <!-- Añadir más columnas según sea necesario -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="producto : ${productos}">
+            <td th:text="${producto.idProducto}"></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="${producto.valor}"></td>
+            <!-- Añadir más celdas según sea necesario -->
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<footer class="footer">
+
+    <div class="contenedor-foater">
+        <div class="barra-foater">
+            <a class="logo-foater" href="index.html">
+                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
+                </h1>
+            </a>
+
+            <nav class="navegacion-foater">
+                <a href="index.html" class="navegacion__enlace">FACTURAR</a>
+                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
+                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
+                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

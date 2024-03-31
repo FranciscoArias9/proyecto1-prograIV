@@ -26,8 +26,8 @@ public class Facturas {
     @ManyToOne
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedores proveedoresByIdProveedor;
-    @OneToMany(mappedBy = "facturasByIdFactura")
-    private Collection<Productos> productosByIdFactura;
+    //@OneToMany(mappedBy = "facturasByIdFactura")//--
+    //private Collection<Productos> productosByIdFactura;//--
 
     public int getIdFactura() {
         return idFactura;
@@ -90,11 +90,11 @@ public class Facturas {
         this.proveedoresByIdProveedor = proveedoresByIdProveedor;
     }
 
-    public Collection<Productos> getProductosByIdFactura() {
-        return productosByIdFactura;
-    }
+    //public Collection<Productos> getProductosByIdFactura() {
+        //return productosByIdFactura;
+    //}
 
-    public void setProductosByIdFactura(Collection<Productos> productosByIdFactura) {
-        this.productosByIdFactura = productosByIdFactura;
-    }
+    //public void setProductosByIdFactura(Collection<Productos> productosByIdFactura) {
+        //this.productosByIdFactura = productosByIdFactura;
+    //}
 }
