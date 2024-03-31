@@ -23,6 +23,7 @@ public class Facturas {
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
     private Clientes clientesByIdCliente;
+
     @ManyToOne
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedores proveedoresByIdProveedor;
@@ -93,6 +94,10 @@ public class Facturas {
 
     public void setProveedoresByIdProveedor(Proveedores proveedoresByIdProveedor) {
         this.proveedoresByIdProveedor = proveedoresByIdProveedor;
+    }
+
+    public Collection<Detalle_Factura> getDetalleFacturaByIdFactura() {
+        return detalleFacturaByIdFactura;
     }
 
     //public Collection<Productos> getProductosByIdFactura() {

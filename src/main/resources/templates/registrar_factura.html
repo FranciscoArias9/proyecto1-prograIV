@@ -44,6 +44,14 @@
                         th:text="${cliente.nombre}"></option>
             </select>
         </div>
+        <h2>AGREGA UN PRODUCTO</h2>
+        <label for="producto">Producto:</label>
+        <select id="producto" name=productoByIdProducto required>
+            <option value="">Seleccione un Producto</option>
+            <option th:each="producto : ${productos}"
+                    th:value="${producto.idProducto}"
+                    th:text="${producto.nombre}"></option>
+        </select>
 
         <div>
             <label for="proveedor">Proveedor:</label>
@@ -59,8 +67,6 @@
             <label for="monto">Monto:</label>
             <input type="number" id="monto" name="monto" th:field="*{monto}" step="0.01" required/>
         </div>
-
-        <!-- Agrega aquí más campos según sea necesario -->
 
         <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
     </form>
@@ -95,3 +101,25 @@
 
 </body>
 </html>
+
+
+<!-- Comentarios agregados
+<div th:each="detalle, detalleStat : *{detalleFacturaByIdFactura}">
+    <div>
+        <label th:text="'Producto ' + ${detalleStat.index + 1}"></label>
+        <select name="detalleFacturaByIdFactura[__${detalleStat.index}__].productoByIdProducto" >
+            <option value="">Seleccione un Producto</option>
+
+            <option th:each="producto : ${productos}"
+                    th:value="${producto.idProducto}"
+                    th:text="${producto.nombre}"></option>
+        </select>
+    </div>
+    <div>
+        <label th:text="'Cantidad ' + ${detalleStat.index + 1}"></label>
+        <input type="number" name="factura.detalleFacturaByIdFactura[__${detalleStat.index}__].cantidad" />
+    </div>
+</div>
+
+
+-->

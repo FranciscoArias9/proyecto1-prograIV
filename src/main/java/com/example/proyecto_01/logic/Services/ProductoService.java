@@ -3,6 +3,7 @@ package com.example.proyecto_01.logic.Services;
 
 import com.example.proyecto_01.logic.Productos;
 import com.example.proyecto_01.data.ProductoRepository;
+import com.example.proyecto_01.logic.Proveedores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,8 @@ public class ProductoService {
     public List<Productos> findAllProductos() {
         return productoRepository.findAll();
     }
+    public List<Productos> findProductosByProveedor(Proveedores proveedor) {
+        return productoRepository.findByProveedoresByIdProveedor(proveedor);
+    }
+
 }
