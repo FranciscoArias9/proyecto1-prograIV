@@ -18,21 +18,21 @@ public class DetalleFacturaService {
       //  this.detalleFacturaRepository = facturaRepository;
     //}
 
-    public Detalle_Factura saveFactura(Detalle_Factura detalleFactura) {
+    public Detalle_Factura saveDetalleFactura(Detalle_Factura detalleFactura) {
         return detalleFacturaRepository.save(detalleFactura);
     }
 
-    public List<Detalle_Factura> findAllFacturas() {
+    public List<Detalle_Factura> findAllDetalleFacturas() {
         return detalleFacturaRepository.findAll();
     }
 
     // Si necesitas buscar facturas específicas, por ejemplo, por cliente o fecha, puedes añadir esos métodos aquí.
-    public Detalle_Factura findFacturaById(Long id) {
+    public Detalle_Factura findDetalleFacturaById(Long id) {
         return detalleFacturaRepository.findById(id).orElse(null);
     }
 
     // Ejemplo de método para eliminar una factura
-    public void deleteFactura(Long id) {
+    public void deleteDetalleFactura(Long id) {
         detalleFacturaRepository.deleteById(id);
     }
 

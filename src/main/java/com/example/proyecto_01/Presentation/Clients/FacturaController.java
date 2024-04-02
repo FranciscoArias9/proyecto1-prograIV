@@ -5,10 +5,7 @@ import com.example.proyecto_01.logic.Detalle_Factura;
 import com.example.proyecto_01.logic.Facturas;
 import com.example.proyecto_01.logic.Productos;
 import com.example.proyecto_01.logic.Proveedores;
-import com.example.proyecto_01.logic.Services.ClienteService;
-import com.example.proyecto_01.logic.Services.FacturaService;
-import com.example.proyecto_01.logic.Services.ProductoService;
-import com.example.proyecto_01.logic.Services.ProveedorService;
+import com.example.proyecto_01.logic.Services.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +29,13 @@ public class FacturaController {
 
     @Autowired
     private ProveedorService proveedorService;
+
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private DetalleFacturaService detalleFacturaService;
+
     List<Productos> listaItems = new ArrayList<>(); //lista de los productos que se van a comprar
     List<Detalle_Factura> listaDetalleFactura = new ArrayList<>();
 
@@ -50,15 +52,32 @@ public class FacturaController {
     }
 
     @PostMapping("/facturas/add")
-    public String registrarFactura(Facturas factura, Model model) {
+    public String registrarFactura(Facturas factura,HttpSession session, Model model) {
 
-        for(int i = 0; i < listaItems.size(); i++){
-            //listaItems.get(i).se
-        }
+        factura.setProveedoresByIdProveedor((Proveedores) session.getAttribute("proveedor"));
+        factura.setMonto(calcularMonto());
 
         facturaService.saveFactura(factura);
+
+        for(int i = 0; i < listaItems.size(); i++){
+            listaDetalleFactura.get(i).setFactura(factura);
+            detalleFacturaService.saveDetalleFactura(listaDetalleFactura.get(i));
+        }
+
+
         return "redirect:/facturas/new";
     }
+    double calcularMonto(){
+        double monto = 0;
+        for(int i = 0; i < listaItems.size(); i++){
+            Double valor = (Double) listaDetalleFactura.get(i).getProducto().getValor();
+            int cant = listaDetalleFactura.get(i).getCantidad();
+            monto += valor*cant;
+        }
+        System.out.println("++++++++++++++:" + monto);
+        return monto;
+    }
+
 
     @PostMapping("/facturas/add_Item")
     public String registrarDetalleFactura(@ModelAttribute("productoByIdProducto") Productos producto, @RequestParam("cantidad") int cantidad, Model model) {
