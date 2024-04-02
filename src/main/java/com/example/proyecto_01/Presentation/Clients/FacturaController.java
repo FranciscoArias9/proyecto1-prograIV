@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class FacturaController {
         model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Añadir la lista de proveedores al modelo
         model.addAttribute("productos", productoService.findProductosByProveedor((Proveedores) session.getAttribute("proveedor"))); //Agregar la lista de productos al modelo
         model.addAttribute("listaItems", listaItems);
+        model.addAttribute("listaDetalles", listaDetalleFactura);
         return "registrar_factura";
     }
 
@@ -59,13 +61,15 @@ public class FacturaController {
     }
 
     @PostMapping("/facturas/add_Item")
-    public String registrarDetalleFactura(@ModelAttribute("productoByIdProducto") Productos producto, Model model) {
+    public String registrarDetalleFactura(@ModelAttribute("productoByIdProducto") Productos producto, @RequestParam("cantidad") int cantidad, Model model) {
         System.out.println("--------------: " + producto.getNombre());
+        System.out.println("--------------:" + cantidad);
         Detalle_Factura detalleFactura = new Detalle_Factura();
-        detalleFactura.setCantidad(10);
+        detalleFactura.setCantidad(cantidad);
         detalleFactura.setProducto(producto);
         detalleFactura.setPrecioUnitario(10.0);
         listaItems.add(producto);
+        listaDetalleFactura.add(detalleFactura);
 
         //listaDetalleFactura.add();
         //detalleFactura.setFactura(n);
