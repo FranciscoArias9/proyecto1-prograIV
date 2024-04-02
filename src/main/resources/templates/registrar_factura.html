@@ -44,14 +44,8 @@
                         th:text="${cliente.nombre}"></option>
             </select>
         </div>
-        <h2>AGREGA UN PRODUCTO</h2>
-        <label for="producto">Producto:</label>
-        <select id="producto" name=productoByIdProducto required>
-            <option value="">Seleccione un Producto</option>
-            <option th:each="producto : ${productos}"
-                    th:value="${producto.idProducto}"
-                    th:text="${producto.nombre}"></option>
-        </select>
+
+
 
         <div>
             <label for="proveedor">Proveedor:</label>
@@ -69,6 +63,37 @@
         </div>
 
         <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
+    </form>
+
+    <form th:action="@{/facturas/add_Item}" method="post">
+        <h3>AGREGA UN PRODUCTO</h3>
+        <label for="producto">Producto:</label>
+        <select id="producto" name=productoByIdProducto required>
+            <option value="">Seleccione un Producto</option>
+            <option th:each="producto : ${productos}"
+                    th:value="${producto.idProducto}"
+                    th:text="${producto.nombre}"></option>
+        </select>
+
+        <input type="submit" class="boton boton--primario" value="Registrar Item"/>
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>ID</th>
+                <th>Precio</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${listaItems}">
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.idProducto}"></td>
+                <td th:text="${producto.valor}"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </form>
 
 </div>
