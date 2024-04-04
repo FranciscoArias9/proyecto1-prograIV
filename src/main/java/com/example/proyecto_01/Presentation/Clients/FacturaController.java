@@ -126,4 +126,11 @@ public class FacturaController {
         return "redirect:/facturas/new";
     }
 
+    @GetMapping("/facturas")
+    public String listarFacturas(Model model) {
+        List<Facturas> facturas = facturaService.findAllFacturas();
+        model.addAttribute("facturas", facturas);
+        return "lista-facturas"; // nombre del archivo HTML de Thymeleaf
+    }
+
 }
