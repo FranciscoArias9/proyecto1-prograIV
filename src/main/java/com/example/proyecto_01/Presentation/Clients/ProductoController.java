@@ -29,12 +29,20 @@ public class ProductoController {
     private ClienteService clienteService;
 
     @GetMapping("/productos/new")
-    public String showSignUpForm(Model model) {
+    public String showSignUpForm(Model model,HttpSession session) {
         model.addAttribute("producto", new Productos());
         model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Agrega la lista de proveedores al modelo // Lista de productos
         model.addAttribute("clientes", clienteService.findAllClientes()); // Agrega la lista de clientes al modelo
-        List<Productos> listaProductos = productoService.findAllProductos();
-        model.addAttribute("productos", listaProductos);
+        //usuario logeado actualmente
+        String usuarioLogeado = (String) session.getAttribute("usuario");
+        //Verificar si hay un usuario logeado
+        if (usuarioLogeado != null) {
+            //lista proveedor actual
+            List<Productos> listaProductos = productoService.findProductosByProveedorActual(usuarioLogeado);
+            //Agregar la lista de productos al modelo
+            model.addAttribute("productos", listaProductos);
+        }
+
         return "add-producto";
     }
 
