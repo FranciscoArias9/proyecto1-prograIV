@@ -30,103 +30,93 @@
     </div>
 
 
-<div class = "contenedor contenido-principal">
+    <div class = "contenedor contenido-principal">
 
-    <br></br>
-    <label>Facturacion
-        <div class="divFlex">
-    <form  th:action="@{/facturas/add_Item}" method="post">
+        <br></br>
+        <label>Facturacion
+            <div class="divFlex">
+                <form  th:action="@{/facturas/add_Item}" method="post">
 
-        <label for="producto">Producto:</label>
-        <select id="producto" name=productoByIdProducto required>
-            <option value="">Seleccione un Producto</option>
-            <option th:each="producto : ${productos}"
-                    th:value="${producto.idProducto}"
-                    th:text="${producto.nombre}"></option>
-        </select>
-        <br><br>
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" min="1" required>
-        <br><br>
+                    <label for="productoId">ID del Producto:</label>
+                    <input type="number" id="productoId" name="productoByIdProducto" min="1" required>
+                    <br><br>
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" min="1" required>
+                    <br><br>
 
-        <input type="submit" class="boton boton--primario" value="Registrar Item"/>
+                    <input type="submit" class="boton boton--primario" value="Registrar Item"/>
 
-    </form>
-    <form  th:action="@{/facturas/add}" th:object="${factura}" method="post">
-
-        <div>
-            <label for="cliente">Cliente:</label>
-            <select id="cliente" name="clientesByIdCliente" required>
-                <option value="">Seleccione un Cliente</option>
-                <option th:each="cliente : ${clientes}"
-                        th:value="${cliente.idCliente}"
-                        th:text="${cliente.nombre}"></option>
-            </select>
-        </div>
-
-        <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
-    </form>
-        </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>ID</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th></th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="detalle : ${listaDetalles}">
-            <td th:text="${detalle.producto.nombre}"></td>
-            <td th:text="${detalle.producto.idProducto}"></td>
-            <td th:text="${detalle.producto.valor*detalle.cantidad}"></td>
-            <td th:text="${detalle.cantidad}" id="cantidad-${detalle.producto.idProducto}"></td>
-            <td id="tdShort">
-                <div class="divFlex">
-                <form class="formsButton" th:action="@{/aumentarCantidad}" method="post">
-                    <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
-                    <button class="boton--secundario" type="submit">+</button>
                 </form>
-                <form class="formsButton" th:action="@{/disminuirCantidad}" method="post">
-                    <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
-                    <button class="boton--terciario" type="submit">+</button>
+                <form  th:action="@{/facturas/add}" th:object="${factura}" method="post">
+
+                    <div>
+                        <label for="clienteId">ID del Cliente:</label>
+                        <input type="number" id="clienteId" name="clientesByIdCliente" min="1" required>
+                    </div>
+
+                    <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
                 </form>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>ID</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th></th>
 
-</div>
-
-
-
-<footer class="footer">
-
-    <div class="contenedor-foater">
-        <div class="barra-foater">
-            <a class="logo-foater" href="index.html">
-                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
-                </h1>
-            </a>
-
-            <nav class="navegacion-foater">
-                <a href="/facturas/new" class="navegacion__enlace">FACTURAR</a>
-                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
-                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
-                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
-                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
-            </nav>
-
-
-        </div>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="detalle : ${listaDetalles}">
+                    <td th:text="${detalle.producto.nombre}"></td>
+                    <td th:text="${detalle.producto.idProducto}"></td>
+                    <td th:text="${detalle.producto.valor*detalle.cantidad}"></td>
+                    <td th:text="${detalle.cantidad}" id="cantidad-${detalle.producto.idProducto}"></td>
+                    <td id="tdShort">
+                        <div class="divFlex">
+                            <form class="formsButton" th:action="@{/aumentarCantidad}" method="post">
+                                <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
+                                <button class="boton--secundario" type="submit">+</button>
+                            </form>
+                            <form class="formsButton" th:action="@{/disminuirCantidad}" method="post">
+                                <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
+                                <button class="boton--terciario" type="submit">+</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
     </div>
 
-</footer>
+
+
+    <footer class="footer">
+
+        <div class="contenedor-foater">
+            <div class="barra-foater">
+                <a class="logo-foater" href="index.html">
+                    <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
+                    </h1>
+                </a>
+
+                <nav class="navegacion-foater">
+                    <a href="/facturas/new" class="navegacion__enlace">FACTURAR</a>
+                    <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
+                    <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
+                    <a href="about.html" class="navegacion__enlace">FACTURAS</a>
+                    <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+                </nav>
+
+
+            </div>
+
+        </div>
+
+    </footer>
 
 </body>
 </html>
@@ -150,5 +140,7 @@
     </div>
 </div>
 
+
+-->
 
 -->
