@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Facturas</title>
+    <!-- Estilos -->
+</head>
+<body>
+<h1>Lista de Facturas</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Monto</th>
+        <!-- Otros campos que quieras mostrar -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="factura : ${facturas}">
+        <td th:text="${factura.idFactura}"></td>
+        <td th:text="${factura.clientesByIdCliente.nombre}"></td>
+        <td th:text="${factura.monto}"></td>
+        <!-- Otros campos -->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
