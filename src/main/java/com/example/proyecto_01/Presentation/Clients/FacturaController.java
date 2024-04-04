@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class FacturaController {
@@ -41,6 +42,7 @@ public class FacturaController {
 
     @GetMapping("/facturas/new")
     public String mostrarFormularioDeRegistro(Model model, HttpSession session) {
+
         model.addAttribute("factura", new Facturas());
         model.addAttribute("detalleFactura", new Detalle_Factura());
         model.addAttribute("clientes", clienteService.findAllClientes()); // Añadir la lista de clientes al modelo
@@ -63,7 +65,8 @@ public class FacturaController {
             listaDetalleFactura.get(i).setFactura(factura);
             detalleFacturaService.saveDetalleFactura(listaDetalleFactura.get(i));
         }
-
+        listaItems.clear();
+        listaDetalleFactura.clear();
 
         return "redirect:/facturas/new";
     }
@@ -97,4 +100,30 @@ public class FacturaController {
         //facturaService.saveFactura(factura);
         return "redirect:/facturas/new";
     }
+
+
+    @PostMapping("/aumentarCantidad")
+    public String aumentarProductoDetalle(Long detalleFactura,HttpSession session, Model model) {
+
+        for (Detalle_Factura indiceObj : listaDetalleFactura) {
+            if (Objects.equals(indiceObj.getId_detalle(), detalleFactura)) {
+                indiceObj.setCantidad(indiceObj.getCantidad() + 1);
+                break;
+            }
+        }
+        return "redirect:/facturas/new";
+    }
+
+    @PostMapping("/disminuirCantidad")
+    public String disminuirProductoDetalle(Long detalleFactura,HttpSession session, Model model) {
+
+        for (Detalle_Factura indiceObj : listaDetalleFactura) {
+            if (Objects.equals(indiceObj.getId_detalle(), detalleFactura)) {
+                indiceObj.setCantidad(indiceObj.getCantidad() - 1);
+                break;
+            }
+        }
+        return "redirect:/facturas/new";
+    }
+
 }

@@ -33,7 +33,8 @@
 <div class = "contenedor contenido-principal">
 
     <br></br>
-    <label>Facturacion</label>
+    <label>Facturacion
+        <div class="divFlex">
     <form  th:action="@{/facturas/add_Item}" method="post">
 
         <label for="producto">Producto:</label>
@@ -65,7 +66,7 @@
 
         <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
     </form>
-
+        </div>
     <table>
         <thead>
         <tr>
@@ -73,6 +74,7 @@
             <th>ID</th>
             <th>Precio</th>
             <th>Cantidad</th>
+            <th></th>
 
         </tr>
         </thead>
@@ -80,8 +82,20 @@
         <tr th:each="detalle : ${listaDetalles}">
             <td th:text="${detalle.producto.nombre}"></td>
             <td th:text="${detalle.producto.idProducto}"></td>
-            <td th:text="${detalle.producto.valor}"></td>
-            <td th:text="${detalle.cantidad}"></td>
+            <td th:text="${detalle.producto.valor*detalle.cantidad}"></td>
+            <td th:text="${detalle.cantidad}" id="cantidad-${detalle.producto.idProducto}"></td>
+            <td id="tdShort">
+                <div class="divFlex">
+                <form class="formsButton" th:action="@{/aumentarCantidad}" method="post">
+                    <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
+                    <button class="boton--secundario" type="submit">+</button>
+                </form>
+                <form class="formsButton" th:action="@{/disminuirCantidad}" method="post">
+                    <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
+                    <button class="boton--terciario" type="submit">+</button>
+                </form>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>

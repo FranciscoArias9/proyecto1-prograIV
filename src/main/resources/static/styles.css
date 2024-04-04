@@ -17,8 +17,6 @@ form {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-
-
 }
 
 input[type="text"],
@@ -255,8 +253,12 @@ img {
 }
 
 .boton--secundario {
-    background-color: var(--primario);
+    background-color: greenyellow;
 
+}
+
+.boton--terciario {
+    background-color: orangered;
 }
 
 .cursos {
@@ -456,4 +458,18 @@ img {
 .campo__field--textarea {
     height: 20rem;
 
+}
+
+
+.formsButton{
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+.divFlex{
+    display: inline-flex;
+}
+#tdShort{
+    width:5%;
 }
