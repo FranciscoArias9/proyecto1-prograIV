@@ -69,22 +69,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="detalle : ${listaDetalles}">
+                <tr th:each="detalle, iterStat : ${listaDetalles}">
                     <td th:text="${detalle.producto.nombre}"></td>
                     <td th:text="${detalle.producto.idProducto}"></td>
-                    <td th:text="${detalle.producto.valor*detalle.cantidad}"></td>
-                    <td th:text="${detalle.cantidad}" id="cantidad-${detalle.producto.idProducto}"></td>
-                    <td id="tdShort">
-                        <div class="divFlex">
-                            <form class="formsButton" th:action="@{/aumentarCantidad}" method="post">
-                                <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
-                                <button class="boton--secundario" type="submit">+</button>
-                            </form>
-                            <form class="formsButton" th:action="@{/disminuirCantidad}" method="post">
-                                <input type="hidden" name="detalleIDAumentar" th:value="${detalle.getId_detalle()}"/>
-                                <button class="boton--terciario" type="submit">+</button>
-                            </form>
-                        </div>
+                    <td th:text="${detalle.producto.valor * detalle.cantidad}"></td>
+                    <td th:text="${detalle.cantidad}"></td>
+                    <td>
+                        <form th:action="@{/aumentarCantidad}" method="post">
+                            <input type="hidden" name="index" th:value="${iterStat.index}" />
+                            <button type="submit">+</button>
+                        </form>
+                        <form th:action="@{/disminuirCantidad}" method="post">
+                            <input type="hidden" name="index" th:value="${iterStat.index}" />
+                            <button type="submit">-</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -140,7 +138,5 @@
     </div>
 </div>
 
-
--->
 
 -->
