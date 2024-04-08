@@ -6,18 +6,37 @@ import com.example.proyecto_01.logic.Facturas;
 import com.example.proyecto_01.logic.Productos;
 import com.example.proyecto_01.logic.Proveedores;
 import com.example.proyecto_01.logic.Services.*;
+import com.itextpdf.text.Document;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+
+
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.StringWriter;
+
+
+import java.io.ByteArrayOutputStream;
+
 
 @Controller
 public class FacturaController {
@@ -101,8 +120,7 @@ public class FacturaController {
         return "redirect:/facturas/new";
     }
 
-
-    @PostMapping("/aumentarCantidad")
+    /*@PostMapping("/aumentarCantidad")
     public String aumentarProductoDetalle(Long detalleFactura,HttpSession session, Model model) {
 
         for (Detalle_Factura indiceObj : listaDetalleFactura) {
@@ -112,9 +130,18 @@ public class FacturaController {
             }
         }
         return "redirect:/facturas/new";
+    }*/
+
+    @PostMapping("/aumentarCantidad")
+    public String aumentarCantidad(@RequestParam("index") int index, HttpSession session) {
+        // Asumiendo que 'listaDetalleFactura' está guardada en la sesión o es un campo en el controlador
+        Detalle_Factura detalle = listaDetalleFactura.get(index);
+        detalle.setCantidad(detalle.getCantidad() + 1);
+        // Asegúrate de actualizar la sesión o la lista según sea necesario
+        return "redirect:/facturas/new";
     }
 
-    @PostMapping("/disminuirCantidad")
+   /* @PostMapping("/disminuirCantidad")
     public String disminuirProductoDetalle(Long detalleFactura,HttpSession session, Model model) {
 
         for (Detalle_Factura indiceObj : listaDetalleFactura) {
@@ -124,6 +151,15 @@ public class FacturaController {
             }
         }
         return "redirect:/facturas/new";
+    }*/
+
+
+    @PostMapping("/disminuirCantidad")
+    public String disminuirCantidad(@RequestParam("index") int index, HttpSession session) {
+        Detalle_Factura detalle = listaDetalleFactura.get(index);
+        detalle.setCantidad(detalle.getCantidad() - 1);
+        // Asegúrate de actualizar la sesión o la lista según sea necesario
+        return "redirect:/facturas/new";
     }
 
     @GetMapping("/facturas")
@@ -132,5 +168,86 @@ public class FacturaController {
         model.addAttribute("facturas", facturas);
         return "lista-facturas"; // nombre del archivo HTML de Thymeleaf
     }
+
+    @GetMapping("/factura/{id}/descargarPDF")
+    public void descargarPdf(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            Facturas factura = facturaService.findFacturaById(id); // Línea completada aquí
+            ByteArrayOutputStream baos = generarPdf(factura);
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=factura-" + id + ".pdf");
+            response.getOutputStream().write(baos.toByteArray());
+        } catch (IOException e) {
+            System.err.println("Error al enviar PDF: " + e.getMessage());
+        }
+    }
+
+    private ByteArrayOutputStream generarPdf(Facturas factura) {
+        // Crear un stream para guardar el PDF
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        // Crear un documento PDF
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, byteArrayOutputStream);
+            document.open();
+            // Aquí es donde añades contenido al documento. Por ejemplo:
+            document.add(new Paragraph("Factura ID: " + factura.getIdFactura()));
+            document.add(new Paragraph("Cliente: " + factura.getClientesByIdCliente().getNombre()));
+            // Supongamos que tienes un método que calcula el total y lo obtienes así:
+            // double total = calcularTotal(factura);
+            document.add(new Paragraph("Total: " + factura.getMonto()));
+            // Añadir más información de la factura como sea necesario
+            document.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return byteArrayOutputStream;
+    }
+
+    private String generarXml(Facturas factura) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(Facturas.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        StringWriter writer = new StringWriter();
+
+        marshaller.marshal(factura, writer);
+        return writer.toString();
+    }
+
+    @GetMapping("/factura/{id}/descargarXML")
+    public void descargarXml(@PathVariable Long id, HttpServletResponse response) {
+        try {
+            // Buscar la factura por ID
+            Facturas factura = facturaService.findFacturaById(id);
+            if (factura == null) {
+                // Manejo en caso de que la factura no se encuentre
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Factura no encontrada con ID: " + id);
+                return;
+            }
+
+            // Generar el contenido XML de la factura
+            String xmlContent = generarXml(factura);
+
+            // Configurar la respuesta para la descarga del archivo XML
+            response.setContentType("application/xml");
+            response.setHeader("Content-Disposition", "attachment; filename=factura-" + id + ".xml");
+
+            // Enviar el contenido XML en la respuesta
+            response.getOutputStream().write(xmlContent.getBytes());
+            response.getOutputStream().flush(); // Asegurarse de que todo el contenido se envíe
+        } catch (Exception e) {
+            // Log del error (cambiar por un logger adecuado en producción)
+            e.printStackTrace();
+            try {
+                // Enviar una respuesta de error en caso de excepción
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al generar el XML");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+
+
 
 }
