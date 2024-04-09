@@ -14,6 +14,7 @@
                 <a href="/facturas" class="navegacion__enlace">FACTURAS</a>
                 <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
                 <a href="/logOut" class="navegacion__enlace">CERRAR SESION</a>
+                <a th:text="${session.usuario.toUpperCase()}" class="navegacion__enlace"></a>
 
             </nav>
 

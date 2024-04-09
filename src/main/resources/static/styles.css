@@ -13,6 +13,7 @@
 
 
 form {
+    margin-top:5%;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -53,6 +54,8 @@ body {
     font-family: var(--fuenteparrafos);
     font-size: 1.5rem;
     line-height: 2;
+    position: relative;
+    min-height: 100vh;
 
 }
 
@@ -195,7 +198,7 @@ img {
 .navegacion__enlace{
     display: block;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     color: #fff;
 }
 
@@ -296,6 +299,10 @@ img {
 
 
 .footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
     background-color: var(--negro);
     height: 20rem;
     background-size: cover;
@@ -303,6 +310,14 @@ img {
     background-position: center center;
 
 
+}
+
+.header{
+    background-color: var(--negro);
+    height: 20rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 
