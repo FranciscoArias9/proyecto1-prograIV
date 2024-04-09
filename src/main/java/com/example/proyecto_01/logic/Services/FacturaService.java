@@ -1,15 +1,20 @@
 package com.example.proyecto_01.logic.Services;
 
 import com.example.proyecto_01.data.FacturaRepository;
+import com.example.proyecto_01.logic.Clientes;
 import com.example.proyecto_01.logic.Facturas;
+import com.example.proyecto_01.logic.Proveedores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class FacturaService {
     private final FacturaRepository facturaRepository;
+    @Autowired
+    private ProveedorService proveedorService;
 
     @Autowired
     public FacturaService(FacturaRepository facturaRepository) {
@@ -34,5 +39,14 @@ public class FacturaService {
         facturaRepository.deleteById(id);
     }
 
-    // Puedes añadir más lógica específica del negocio relacionada con facturas si es necesario
+    public List<Facturas> findFacturasByProveedorActual(String usuario) {
+        Proveedores proveedor = proveedorService.encontrarPorUsuario(usuario); //proveedor actual
+
+        if (proveedor != null) {
+            return facturaRepository.findByProveedoresByIdProveedor(proveedor); //productos del proveedor actual solo del proveedor actual
+        } else {
+            //si no encuentra proveedor actual
+            return Collections.emptyList();
+        }
+    }
 }

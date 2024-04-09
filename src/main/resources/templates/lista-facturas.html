@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Facturas</title>
-    <!-- Estilos -->
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="contenedor contenido-principal">
+
+
+
 <h1>Lista de Facturas</h1>
 <table>
     <tr>
@@ -18,12 +23,15 @@
         <td th:text="${factura.idFactura}"></td>
         <td th:text="${factura.clientesByIdCliente.nombre}"></td>
         <td th:text="${factura.monto}"></td>
-        <td>
+            <td>
             <a th:href="@{/factura/{id}/descargarPDF(id=${factura.idFactura})}" class="btn">Descargar PDF</a>
             <a th:href="@{/factura/{id}/descargarXML(id=${factura.idFactura})}" class="btn">Descargar XML</a>
 
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

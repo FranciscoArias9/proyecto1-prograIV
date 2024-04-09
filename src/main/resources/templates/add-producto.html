@@ -7,28 +7,7 @@
 </head>
 <body>
 
-<header class="footer">
-
-    <div class="contenedor contenedor--header">
-        <div class="barra">
-            <a class="logo" >
-                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
-            </a>
-
-            <nav class="navegacion">
-                <a href="/facturas/new" class="navegacion__enlace">FACTURAR</a>
-                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
-                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
-                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
-                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
-            </nav>
-
-
-        </div>
-
-    </div>
-
-</header>
+<header th:replace="~{fragments/header :: header}"></header>
 
 
 <div class="contenedor contenido-principal">
@@ -70,29 +49,7 @@
 
 
 
-<footer class="footer">
-
-    <div class="contenedor-foater">
-        <div class="barra-foater">
-            <a class="logo-foater" href="index.html">
-                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
-                </h1>
-            </a>
-
-            <nav class="navegacion-foater">
-                <a href="/facturas/new" class="navegacion__enlace">FACTURAR</a>
-                <a href="/clientes/new" class="navegacion__enlace">CLIENTES</a>
-                <a href="/productos/new" class="navegacion__enlace">PRODUCTOS</a>
-                <a href="about.html" class="navegacion__enlace">FACTURAS</a>
-                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
-            </nav>
-
-
-        </div>
-
-    </div>
-
-</footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

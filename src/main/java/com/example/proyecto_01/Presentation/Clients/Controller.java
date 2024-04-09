@@ -6,6 +6,7 @@ import com.example.proyecto_01.logic.Services.ProveedorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,6 +35,15 @@ public class Controller {
             session.setAttribute("usuario", proveedor.getUsuario());
             return "home";
         } return "error";
+
+    }
+
+    @GetMapping("/logOut")
+    public String login(HttpSession session) {
+        if(session!=null){
+            session.invalidate();
+        }
+        return "redirect:/index.html";
 
     }
 

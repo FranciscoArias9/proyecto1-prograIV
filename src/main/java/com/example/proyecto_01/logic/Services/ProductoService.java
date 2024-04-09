@@ -7,11 +7,14 @@ import com.example.proyecto_01.logic.Proveedores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ProductoService {
     private final ProductoRepository productoRepository;
+    @Autowired
+    private ProveedorService proveedorService;
 
     @Autowired
     public ProductoService(ProductoRepository productoRepository) {
@@ -27,6 +30,16 @@ public class ProductoService {
     }
     public List<Productos> findProductosByProveedor(Proveedores proveedor) {
         return productoRepository.findByProveedoresByIdProveedor(proveedor);
+    }
+    public List<Productos> findProductosByProveedorActual(String usuario) {
+        Proveedores proveedor = proveedorService.encontrarPorUsuario(usuario); //proveedor actual
+
+        if (proveedor != null) {
+            return productoRepository.findByProveedoresByIdProveedor(proveedor); //productos del proveedor actual solo del proveedor actual
+        } else {
+            //si no encuentra proveedor actual
+            return Collections.emptyList();
+        }
     }
 
 }

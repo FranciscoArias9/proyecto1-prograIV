@@ -1,10 +1,7 @@
 package com.example.proyecto_01.Presentation.Clients;
 
 
-import com.example.proyecto_01.logic.Detalle_Factura;
-import com.example.proyecto_01.logic.Facturas;
-import com.example.proyecto_01.logic.Productos;
-import com.example.proyecto_01.logic.Proveedores;
+import com.example.proyecto_01.logic.*;
 import com.example.proyecto_01.logic.Services.*;
 import com.itextpdf.text.Document;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,10 +25,10 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.JAXBContext;
+//import javax.xml.bind.JAXBException;
+//import javax.xml.bind.Marshaller;
+//import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringWriter;
 
 
@@ -163,9 +160,23 @@ public class FacturaController {
     }
 
     @GetMapping("/facturas")
-    public String listarFacturas(Model model) {
-        List<Facturas> facturas = facturaService.findAllFacturas();
-        model.addAttribute("facturas", facturas);
+    public String listarFacturas(Model model, HttpSession session) {
+
+        //usuario logeado actualmente
+        String usuarioLogeado = (String) session.getAttribute("usuario");
+        //Verificar si hay un usuario logeado
+        if (usuarioLogeado != null) {
+            //lista proveedor actual
+            List<Facturas> listaFacturas = facturaService.findFacturasByProveedorActual(usuarioLogeado);
+            //Agregar la lista de productos al modelo
+            model.addAttribute("facturas", listaFacturas);
+        }
+
+        //NUNCA DEBERIA DE SER VACIO YA QUE ENTRO PERO DEBERIAMOS REVISAR EL ASUNTO
+
+        //model.addAttribute("clientes", clienteService.findAllClientes()); // Agrega la lista de clientes al modelo
+        //List<Facturas> facturas = facturaService.findAllFacturas();
+        //model.addAttribute("facturas", facturas);
         return "lista-facturas"; // nombre del archivo HTML de Thymeleaf
     }
 
@@ -204,14 +215,15 @@ public class FacturaController {
         return byteArrayOutputStream;
     }
 
-    private String generarXml(Facturas factura) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(Facturas.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    private String generarXml(Facturas factura)  {
+        //JAXBContext context = JAXBContext.newInstance(Facturas.class);
+        //Marshaller marshaller = context.createMarshaller();
+        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         StringWriter writer = new StringWriter();
 
-        marshaller.marshal(factura, writer);
-        return writer.toString();
+        //marshaller.marshal(factura, writer);
+        //return writer.toString();
+        return "";
     }
 
     @GetMapping("/factura/{id}/descargarXML")

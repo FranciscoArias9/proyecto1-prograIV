@@ -4,14 +4,19 @@ package com.example.proyecto_01.logic.Services;
 
 import com.example.proyecto_01.logic.Clientes;
 import com.example.proyecto_01.data.ClienteRepository;
+import com.example.proyecto_01.logic.Productos;
+import com.example.proyecto_01.logic.Proveedores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ClienteService {
     private final ClienteRepository clienteRepository;
+    @Autowired
+    private ProveedorService proveedorService;
 
     @Autowired
     public ClienteService(ClienteRepository clienteRepository) {
@@ -24,5 +29,15 @@ public class ClienteService {
 
     public List<Clientes> findAllClientes() {
         return clienteRepository.findAll();
+    }
+    public List<Clientes> findClieteByProveedorActual(String usuario) {
+        Proveedores proveedor = proveedorService.encontrarPorUsuario(usuario); //proveedor actual
+
+        if (proveedor != null) {
+            return clienteRepository.findByProveedoresByIdProveedor(proveedor); //productos del proveedor actual solo del proveedor actual
+        } else {
+            //si no encuentra proveedor actual
+            return Collections.emptyList();
+        }
     }
 }
