@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+
 @Entity
 public class Facturas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

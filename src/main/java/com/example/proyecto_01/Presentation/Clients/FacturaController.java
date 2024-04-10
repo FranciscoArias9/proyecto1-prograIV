@@ -6,14 +6,22 @@ import com.example.proyecto_01.logic.Services.*;
 import com.itextpdf.text.Document;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +37,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 //import javax.xml.bind.JAXBException;
 //import javax.xml.bind.Marshaller;
 //import javax.xml.bind.annotation.XmlRootElement;
-import java.io.StringWriter;
+import javax.xml.transform.stream.StreamResult;
+
 
 
 import java.io.ByteArrayOutputStream;
@@ -52,6 +61,9 @@ public class FacturaController {
 
     @Autowired
     private DetalleFacturaService detalleFacturaService;
+
+    private XMLService xmlService = new XMLService();
+
 
     List<Productos> listaItems = new ArrayList<>(); //lista de los productos que se van a comprar
     List<Detalle_Factura> listaDetalleFactura = new ArrayList<>();
@@ -233,6 +245,7 @@ public class FacturaController {
     }
 
     private String generarXml(Facturas factura)  {
+
         //JAXBContext context = JAXBContext.newInstance(Facturas.class);
         //Marshaller marshaller = context.createMarshaller();
         //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -240,10 +253,41 @@ public class FacturaController {
 
         //marshaller.marshal(factura, writer);
         //return writer.toString();
+
+        // Convertir el objeto a XML
+        //String xml = Jaxb2Marshaller.toXml(factura);
+
+        // Establecer headers de la respuesta
+        //response.setContentType("application/xml");
+        //response.setHeader("Content-Disposition", "attachment; filename=\"mi-archivo.xml\"");
+
+        // Escribir el XML en la respuesta
+        //response.getWriter().write(xml);
         return "";
     }
-
     @GetMapping("/factura/{id}/descargarXML")
+    public void downloadFactura(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        // Generar el documento XML
+        Facturas factura = facturaService.findFacturaById(id);
+        org.jdom2.Document xmlDocument = xmlService.generarDocumentoXML(factura);
+
+        // Establecer el tipo de contenido de la respuesta
+        response.setContentType("application/xml");
+        response.setCharacterEncoding("UTF-8");
+
+        // Establecer el encabezado Content-Disposition para indicar que el archivo debe descargarse
+        response.setHeader("Content-Disposition", "attachment; filename=facturas.xml");
+
+        // Obtener el flujo de salida de la respuesta
+        try (OutputStreamWriter out = new OutputStreamWriter(response.getOutputStream(), "UTF-8")) {
+            // Escribir el documento XML en el flujo de salida
+            XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+            xmlOutputter.output(xmlDocument, out);
+        }
+    }
+
+
+    @GetMapping("/factusra/{id}/descargarXML")
     public void descargarXml(@PathVariable Long id, HttpServletResponse response) {
         try {
             // Buscar la factura por ID
