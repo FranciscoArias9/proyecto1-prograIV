@@ -32,7 +32,17 @@ public class ClienteController {
             List<Clientes> listaClientes = clienteService.findClieteByProveedorActual(usuarioLogeado);
             //Agregar la lista de productos al modelo
             model.addAttribute("clientes", listaClientes);
+
+
+            for (Clientes c : listaClientes) {
+                //System.out.println("----------------------------\n");
+                System.out.println(c.getNombre() + "\n");
+
+            }
         }
+
+
+
         //model.addAttribute("clientes", clienteService.findAllClientes()); // Agrega la lista de clientes al modelo
         return "add-cliente";
     }

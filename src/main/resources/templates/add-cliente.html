@@ -28,21 +28,31 @@
         <input type="submit" class="boton boton--primario" value="Registrar"/>
     </form>
 
-    <h2>Lista de Clientes</h2>
-    <table>
+
+    <table th:if="${not #lists.isEmpty(clientes)}">
+        <h2>Lista de Clientes</h2>
         <thead>
         <tr>
+            <th>Id</th>
             <th>Nombre</th>
             <th>Usuario</th>
             <th>Clave</th>
+            <th></th>
 
         </tr>
         </thead>
         <tbody>
         <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.idCliente}"></td>
             <td th:text="${cliente.nombre}"></td>
             <td th:text="${cliente.usuario}"></td>
             <td th:text="${cliente.clave}"></td>
+            <td>
+                <form th:class="formsUgly" th:action="@{/buscarCliente}" method="post">
+                    <input type="hidden" name="clienteID" th:value="${cliente.idCliente}" />
+                    <button type="submit" class="boton boton--primario" >ADD</button>
+                </form>
+            </td>
 
         </tr>
         </tbody>
@@ -52,8 +62,8 @@
 
 
 
-
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+
 
 </body>
 </html>

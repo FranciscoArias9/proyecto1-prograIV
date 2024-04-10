@@ -33,8 +33,8 @@ public class Controller {
             // Almacenar el ID del proveedor en la sesión
             session.setAttribute("proveedor", proveedor);
             session.setAttribute("usuario", proveedor.getUsuario());
-            return "home";
-        } return "error";
+            return "redirect:/facturas/new"; // Asegúrate de redirigir a una ruta válida
+        } return "redirect:/index.html";
 
     }
 
@@ -44,6 +44,12 @@ public class Controller {
             session.invalidate();
         }
         return "redirect:/index.html";
+
+    }
+
+    @GetMapping("/about")
+    public String about() {
+        return "about";
 
     }
 

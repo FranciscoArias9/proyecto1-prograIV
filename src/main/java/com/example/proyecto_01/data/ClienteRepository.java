@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Clientes, Long> {
     List<Clientes> findByProveedoresByIdProveedor(Proveedores proveedor);
+    Clientes findByIdCliente(int id);
 }

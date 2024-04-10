@@ -7,6 +7,9 @@
 </head>
 <body>
 
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="contenedor contenido-principal">
+
 <h2>Editar Proveedor</h2>
 
 <form th:action="@{/proveedores/actualizar/{id}(id=${proveedor.idProveedor})}" th:object="${proveedor}" method="post">
@@ -23,14 +26,9 @@
     <label for="usuario">Usuario:</label>
     <input type="text" id="usuario" th:field="*{usuario}" required/><br/>
 
-
-
-
-
-    <!-- Agrega más campos según sea necesario -->
-
-    <input type="submit" value="Actualizar"/>
+    <input class="boton boton--primario" type="submit" value="Actualizar"/>
 </form>
+</div>
 
     <footer th:replace="~{fragments/footer :: footer}"></footer>
 

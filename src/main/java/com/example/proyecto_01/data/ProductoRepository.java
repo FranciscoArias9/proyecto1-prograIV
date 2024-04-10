@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface ProductoRepository extends JpaRepository<Productos, Long> {
     List<Productos> findByProveedoresByIdProveedor(Proveedores proveedor);
+    Productos findByIdProducto(int id);
 }

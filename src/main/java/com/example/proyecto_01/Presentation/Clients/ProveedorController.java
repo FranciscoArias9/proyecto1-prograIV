@@ -6,6 +6,7 @@ import com.example.proyecto_01.logic.Proveedores;
 
 
 import com.example.proyecto_01.logic.Services.ProveedorService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,16 +28,25 @@ public class ProveedorController {
     @GetMapping("/proveedores/new")
     public String showSignUpForm(Model model) {
         model.addAttribute("proveedor", new Proveedores());
-        model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Agregar la lista de proveedores al modelo
-        List<Proveedores> proveedores = proveedorService.findAllProveedores();
-        model.addAttribute("proveedores", proveedores);
+        //model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Agregar la lista de proveedores al modelo
+        //List<Proveedores> proveedores = proveedorService.findAllProveedores();
+        //model.addAttribute("proveedores", proveedores);
 
         return "add-proveedor";
     }
 
-    @GetMapping("/editar/{id}")
+    /*@GetMapping("/editar/{id}")
     public String mostrarFormularioDeEdicion(@PathVariable("id") int id, Model model) {
         Proveedores proveedor = proveedorService.encontrarPorId(id);
+        model.addAttribute("proveedor", proveedor);
+        return "editar_proveedor";
+    }*/
+
+    @GetMapping("/editar")
+    public String mostrarFormularioDeEdicion(HttpSession session, Model model) {
+        System.out.println("Entre aqui");
+        Proveedores p = (Proveedores) session.getAttribute("proveedor");
+        Proveedores proveedor = proveedorService.encontrarPorId(p.getIdProveedor()); //para agarra el real real// puede ser inecesario
         model.addAttribute("proveedor", proveedor);
         return "editar_proveedor";
     }
@@ -56,7 +66,7 @@ public class ProveedorController {
         if (proveedorExistente != null) {
             proveedor.setIdProveedor((int) id);
             proveedorService.guardarProveedor(proveedor);
-            return "redirect:/proveedores/new"; // Asegúrate de redirigir a una ruta válida
+            return "redirect:/facturas/new"; // Asegúrate de redirigir a una ruta válida
         } else {
             // Manejo del caso en que no se encuentra el proveedor
             model.addAttribute("error", "Proveedor no encontrado");

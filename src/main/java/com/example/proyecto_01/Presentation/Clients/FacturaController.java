@@ -59,21 +59,34 @@ public class FacturaController {
     @GetMapping("/facturas/new")
     public String mostrarFormularioDeRegistro(Model model, HttpSession session) {
 
-        model.addAttribute("factura", new Facturas());
+        model.addAttribute("factura", new Facturas()); //th
         model.addAttribute("detalleFactura", new Detalle_Factura());
         model.addAttribute("clientes", clienteService.findAllClientes()); // Añadir la lista de clientes al modelo
         model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Añadir la lista de proveedores al modelo
         model.addAttribute("productos", productoService.findProductosByProveedor((Proveedores) session.getAttribute("proveedor"))); //Agregar la lista de productos al modelo
         model.addAttribute("listaItems", listaItems);
         model.addAttribute("listaDetalles", listaDetalleFactura);
+
+        if(session.getAttribute("clienteFactura")==null) {
+            Clientes cliente = new Clientes();
+            cliente.setUsuario("NULL");
+            session.setAttribute("clienteFactura", cliente); //tener cuidado al llamar este metodo por esta razon/ fixed
+        }
         return "registrar_factura";
     }
 
     @PostMapping("/facturas/add")
     public String registrarFactura(Facturas factura,HttpSession session, Model model) {
+        Clientes cliente = (Clientes) session.getAttribute("clienteFactura");
+        if(listaDetalleFactura.isEmpty() || cliente.getUsuario().equals("NULL")){ //en caso de que no se pueda
+            listaDetalleFactura.clear();
+            session.setAttribute("clienteFactura", null);//para que cuando recarge se ponga el nuevo cliente
+            return "redirect:/facturas/new";
+        }
 
         factura.setProveedoresByIdProveedor((Proveedores) session.getAttribute("proveedor"));
         factura.setMonto(calcularMonto());
+        factura.setClientesByIdCliente((Clientes) session.getAttribute("clienteFactura"));
 
         facturaService.saveFactura(factura);
 
@@ -83,6 +96,7 @@ public class FacturaController {
         }
         listaItems.clear();
         listaDetalleFactura.clear();
+        session.setAttribute("clienteFactura", null);//para que cuando recarge se ponga el nuevo cliente
 
         return "redirect:/facturas/new";
     }
@@ -155,6 +169,9 @@ public class FacturaController {
     public String disminuirCantidad(@RequestParam("index") int index, HttpSession session) {
         Detalle_Factura detalle = listaDetalleFactura.get(index);
         detalle.setCantidad(detalle.getCantidad() - 1);
+        if (detalle.getCantidad()==0){
+            listaDetalleFactura.remove(index);
+        }
         // Asegúrate de actualizar la sesión o la lista según sea necesario
         return "redirect:/facturas/new";
     }
@@ -257,6 +274,32 @@ public class FacturaController {
                 ioException.printStackTrace();
             }
         }
+    }
+
+    @PostMapping("/buscarCliente")
+    public String buscarCliente(@RequestParam("clienteID") int clienteID, HttpSession session, Model model) {
+        Clientes cliente = clienteService.findClienteById(clienteID);
+        session.setAttribute("clienteFactura", cliente);
+
+        model.addAttribute("listaItems", listaItems);
+        model.addAttribute("listaDetalles", listaDetalleFactura);
+
+        System.out.println(cliente.getNombre());
+        System.out.println("BUSCANDO");
+
+
+        return "registrar_factura"; //dudoso
+    }
+    @PostMapping("/buscarProducto")
+    public String buscarProducto(@RequestParam("productoID") int productoId){
+        Productos producto = productoService.findById(productoId);
+        Detalle_Factura detalleFactura = new Detalle_Factura();
+        detalleFactura.setCantidad(1);
+        detalleFactura.setProducto(producto);
+        detalleFactura.setPrecioUnitario(10.0);
+        listaItems.add(producto);
+        listaDetalleFactura.add(detalleFactura);
+        return "redirect:/facturas/new";
     }
 
 

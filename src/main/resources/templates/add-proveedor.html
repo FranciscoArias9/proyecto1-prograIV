@@ -7,7 +7,27 @@
 </head>
 <body>
 
-<header th:replace="~{fragments/header :: header}"></header>
+<header class="header">
+
+    <div class="contenedor contenedor--header">
+        <div class="barra">
+            <a class="logo" >
+                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
+            </a>
+
+            <nav class="navegacion">
+                <a href="/proveedores/new" class="navegacion__enlace">REGISTRARSE</a>
+                <a href="../static/index.html" class="navegacion__enlace">INICIAR SESION</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+                <a th:if="${session.usuario!=null}" th:text="${session.usuario.toUpperCase()}" class="navegacion__enlace"></a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</header>
 
 
 <div class="contenedor contenido-principal">
@@ -29,16 +49,16 @@
 
         <input type="submit" class="boton boton--primario" value="Registrar"/>
     </form>
+    <!--
+        <h2>Listado de Proveedores</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
 
-    <h2>Listado de Proveedores</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tipo</th>
-            <th>Nombre</th>
-            <th>Usuario</th>
-            <!-- Agrega más columnas según sea necesario -->
         </tr>
         </thead>
         <tbody>
@@ -47,16 +67,40 @@
             <td th:text="${proveedor.tipo}"></td>
             <td th:text="${proveedor.nombre}"></td>
             <td th:text="${proveedor.usuario}"></td>
-            <!-- Agrega más celdas según sea necesario -->
+
         </tr>
         </tbody>
     </table>
-
+-->
 
 </div>
 
 
-<footer th:replace="~{fragments/footer :: footer}"></footer>
+<footer class="footer">
+
+    <div class="contenedor-foater">
+        <div class="barra-foater">
+            <a class="logo-foater">
+                <h1 class="logo__nombre-foater no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span>
+                </h1>
+            </a>
+
+            <nav class="navegacion-foater">
+
+                <a href="/proveedores/new" class="navegacion__enlace">REGISTRARSE</a>
+                <a href="../static/index.html" class="navegacion__enlace">INICIAR SESION</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+
+                <a th:if="${session.usuario!=null}" th:text="${session.usuario.toUpperCase()}" class="navegacion__enlace"></a>
+
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</footer>
 
 </body>
 </html>

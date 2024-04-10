@@ -54,7 +54,7 @@ body {
     font-family: var(--fuenteparrafos);
     font-size: 1.5rem;
     line-height: 2;
-    position: relative;
+
     min-height: 100vh;
 
 }
@@ -63,7 +63,7 @@ body {
 
     max-width: 120rem;
     width: 90%;
-    margin: 0 auto;
+    margin: 0 auto 10%;
 
 }
 
@@ -299,9 +299,7 @@ img {
 
 
 .footer {
-    position: absolute;
-    text-align: center;
-    bottom: 0;
+
     width: 100%;
     background-color: var(--negro);
     height: 20rem;
@@ -487,4 +485,17 @@ img {
 }
 #tdShort{
     width:5%;
+}
+
+.divForms{
+    margin-top:5%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.formsUgly{
+    border-radius: 0px;
+    box-shadow: 0px 0px 0px 0px;
 }

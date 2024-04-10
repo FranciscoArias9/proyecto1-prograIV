@@ -31,6 +31,7 @@ public class ProductoService {
     public List<Productos> findProductosByProveedor(Proveedores proveedor) {
         return productoRepository.findByProveedoresByIdProveedor(proveedor);
     }
+
     public List<Productos> findProductosByProveedorActual(String usuario) {
         Proveedores proveedor = proveedorService.encontrarPorUsuario(usuario); //proveedor actual
 
@@ -40,6 +41,9 @@ public class ProductoService {
             //si no encuentra proveedor actual
             return Collections.emptyList();
         }
+    }
+    public Productos findById(int id) {
+        return productoRepository.findByIdProducto(id);
     }
 
 }

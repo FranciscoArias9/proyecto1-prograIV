@@ -25,13 +25,15 @@
         <input type="submit" class="boton boton--primario" value="Registrar"/>
     </form>
 
-    <h2>Lista de Productos</h2>
-    <table>
+
+    <table th:if="${not #lists.isEmpty(productos)}">
+        <h2>Lista de Productos</h2>
         <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Valor</th>
+            <th></th>
             <!-- Añadir más columnas según sea necesario -->
         </tr>
         </thead>
@@ -40,7 +42,12 @@
             <td th:text="${producto.idProducto}"></td>
             <td th:text="${producto.nombre}"></td>
             <td th:text="${producto.valor}"></td>
-            <!-- Añadir más celdas según sea necesario -->
+            <td>
+                <form th:class="formsUgly" th:action="@{/buscarProducto}" method="post">
+                    <input type="hidden" name="productoID" th:value="${producto.idProducto}" />
+                    <button type="submit" class="boton boton--primario" >ADD</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

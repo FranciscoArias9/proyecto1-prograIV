@@ -15,9 +15,10 @@
     <div class = "contenedor contenido-principal">
 
         <br></br>
-        <label>Facturacion
+        <h3>Facturacion</h3>
             <div class="divFlex">
-                <form  th:action="@{/facturas/add_Item}" method="post">
+                <div th:class="divForms">
+                <form th:class="formsUgly" th:action="@{/facturas/add_Item}" method="post">
 
                     <label for="productoId">ID del Producto:</label>
                     <input type="number" id="productoId" name="productoByIdProducto" min="1" required>
@@ -29,17 +30,42 @@
                     <input type="submit" class="boton boton--primario" value="Registrar Item"/>
 
                 </form>
-                <form  th:action="@{/facturas/add}" th:object="${factura}" method="post">
+                    <a href="/productos/new" class="boton boton--primario">Buscar</a>
+                </div>
+
+
+                <div th:class="divForms">
+
+                <form th:class="formsUgly" th:action="@{/buscarCliente}" method="post">
 
                     <div>
                         <label for="clienteId">ID del Cliente:</label>
-                        <input type="number" id="clienteId" name="clientesByIdCliente" min="1" required>
+                        <input type="number" id="clienteId" name="clienteID" min="1" required>
                     </div>
 
+                    <input type="submit" class="boton boton--primario" value="Agregar"/>
+
+                </form>
+
+                    <a href="/clientes/new" class="boton boton--primario">Buscar</a>
+
+
+                    <h4 th:if="${not session.clienteFactura.getUsuario().equals('NULL')}" id="clienteNom" th:text="'Cliente: ' + ${session.clienteFactura.getNombre()}"></h4>
+                </div>
+
+
+
+                <div th:class="divForms">
+                <form th:class="formsUgly" th:action="@{/facturas/add}" th:object="${factura}" method="post">
                     <input type="submit" class="boton boton--primario" value="Registrar Factura"/>
                 </form>
+                </div>
+
+
             </div>
-            <table>
+
+            <table th:if="${not #lists.isEmpty(listaDetalles)}">
+                <h3>LISTA DE PRODUCTOS</h3>
                 <thead>
                 <tr>
                     <th>Nombre</th>

@@ -40,4 +40,9 @@ public class ClienteService {
             return Collections.emptyList();
         }
     }
+
+    public Clientes findClienteById(int id){
+        return clienteRepository.findByIdCliente(id);
+    }
+
 }
