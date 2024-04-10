@@ -54,6 +54,7 @@ public class ProveedorController {
 
     @PostMapping("/proveedores/add")
     public String addProveedor(Proveedores proveedor, Model model) {
+        proveedor.setEstado(false);
         proveedorService.saveProveedor(proveedor);
         // Redirige para evitar duplicación del envío del formulario y para actualizar la lista de proveedores
         return "redirect:/proveedores/new";
@@ -65,6 +66,7 @@ public class ProveedorController {
         Proveedores proveedorExistente = proveedorService.encontrarPorId(id);
         if (proveedorExistente != null) {
             proveedor.setIdProveedor((int) id);
+            proveedor.setEstado(true);
             proveedorService.guardarProveedor(proveedor);
             return "redirect:/facturas/new"; // Asegúrate de redirigir a una ruta válida
         } else {

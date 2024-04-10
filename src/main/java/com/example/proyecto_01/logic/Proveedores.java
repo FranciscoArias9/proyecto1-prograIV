@@ -23,6 +23,9 @@ public class Proveedores {
     @Basic
     @Column(name = "clave")
     private String clave;
+    @Basic
+    @Column(name = "estado")
+    private boolean estado;
     @OneToMany(mappedBy = "proveedoresByIdProveedor")
     private Collection<Clientes> clientesByIdProveedor;
     @OneToMany(mappedBy = "proveedoresByIdProveedor")
@@ -70,17 +73,21 @@ public class Proveedores {
         this.clave = clave;
     }
 
+    public boolean isEstado() {return estado;}
+
+    public void setEstado(boolean estado) {this.estado = estado;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proveedores that = (Proveedores) o;
-        return idProveedor == that.idProveedor && Objects.equals(tipo, that.tipo) && Objects.equals(nombre, that.nombre) && Objects.equals(usuario, that.usuario) && Objects.equals(clave, that.clave);
+        return idProveedor == that.idProveedor && Objects.equals(tipo, that.tipo) && Objects.equals(nombre, that.nombre) && Objects.equals(usuario, that.usuario) && Objects.equals(clave, that.clave) && estado == that.estado;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProveedor, tipo, nombre, usuario, clave);
+        return Objects.hash(idProveedor, tipo, nombre, usuario, clave, estado);
     }
 
     public Collection<Clientes> getClientesByIdProveedor() {

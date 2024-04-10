@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
+
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -23,17 +25,17 @@ public class Controller {
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model,
                         HttpSession session) {
-        // Aquí puedes realizar la lógica de autenticación y verificar las credenciales.
-        // En este ejemplo, simplemente imprimimos los valores del nombre de usuario y contraseña recibidos.
-        //System.out.println("Username: " + username);
-        //System.out.println("Password: " + password);
-        if(proveedorService.validarCredenciales(username, password)){
+        if(Objects.equals(username, "admin") && Objects.equals(password, "admin")){
+            return "redirect:/admin";
+        }
+        Proveedores proveedor = proveedorService.encontrarPorUsuario(username);
+        if(proveedorService.validarCredenciales(username, password) && proveedor.isEstado()){
             // Obtener el proveedor autenticado
-            Proveedores proveedor = proveedorService.encontrarPorUsuario(username);
             // Almacenar el ID del proveedor en la sesión
             session.setAttribute("proveedor", proveedor);
             session.setAttribute("usuario", proveedor.getUsuario());
             return "redirect:/facturas/new"; // Asegúrate de redirigir a una ruta válida
+
         } return "redirect:/index.html";
 
     }
@@ -52,6 +54,8 @@ public class Controller {
         return "about";
 
     }
+
+
 
 
 
