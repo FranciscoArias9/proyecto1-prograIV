@@ -248,7 +248,9 @@ img {
 
 .boton:hover {
     cursor: pointer;
+    background-color: #45a049;
 }
+
 
 
 .boton--primario {
