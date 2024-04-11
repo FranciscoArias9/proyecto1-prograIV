@@ -35,7 +35,7 @@
             <td th:text="${proveedor.usuario}"></td>
             <td th:if="${proveedor.estado}">Habilitado</td>
             <td th:if="not ${proveedor.estado}">Desabilitado</td>
-            <td>
+            <td class="divFlex">
                 <form class="formsUgly" th:action="@{/activarProveedor}" method="post">
                     <input type="hidden" name="idProveedor" th:value="${proveedor.idProveedor}" />
                     <button class="boton boton--primario" type="submit">Activar</button>

@@ -82,14 +82,14 @@
                     <td th:text="${detalle.producto.idProducto}"></td>
                     <td th:text="${detalle.producto.valor * detalle.cantidad}"></td>
                     <td th:text="${detalle.cantidad}"></td>
-                    <td>
-                        <form th:action="@{/aumentarCantidad}" method="post">
+                    <td class="divFlex">
+                        <form class="formsUgly" th:action="@{/aumentarCantidad}" method="post">
                             <input type="hidden" name="index" th:value="${iterStat.index}" />
-                            <button type="submit">+</button>
+                            <button class="boton boton--secundario" type="submit">+</button>
                         </form>
-                        <form th:action="@{/disminuirCantidad}" method="post">
+                        <form class="formsUgly" th:action="@{/disminuirCantidad}" method="post">
                             <input type="hidden" name="index" th:value="${iterStat.index}" />
-                            <button type="submit">-</button>
+                            <button class="boton boton--terciario" type="submit">-</button>
                         </form>
                     </td>
                 </tr>

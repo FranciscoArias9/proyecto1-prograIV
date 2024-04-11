@@ -22,8 +22,8 @@
         <td th:text="${factura.clientesByIdCliente.nombre}"></td>
         <td th:text="${factura.monto}"></td>
             <td>
-            <a th:href="@{/factura/{id}/descargarPDF(id=${factura.idFactura})}" class="btn">Descargar PDF</a>
-            <a th:href="@{/factura/{id}/descargarXML(id=${factura.idFactura})}" class="btn">Descargar XML</a>
+            <a class="boton boton--primario" th:href="@{/factura/{id}/descargarPDF(id=${factura.idFactura})}" >Descargar PDF</a>
+            <a class="boton boton--primario" th:href="@{/factura/{id}/descargarXML(id=${factura.idFactura})}" >Descargar XML</a>
 
             </td>
         </tr>

@@ -22,13 +22,17 @@ public class XMLService {
         // Crear un elemento raíz para el documento XML
         // Crear un elemento raíz para el documento XML
         Element root = new Element("FacturacionFB");
-        Element facturas = new Element("facturas");
+        Element facturas = new Element("Facturas");
 
         // Agregar elementos y atributos al documento según sea necesario
-        Element facturaElement = new Element("factura");
-        facturaElement.addContent(new Element("ID").setText(String.valueOf(factura.getIdFactura())));
-        //facturaElement.addContent(new Element("ID cliente").setText(String.valueOf(factura.getClientesByIdCliente())));
-        //facturaElement.addContent(new Element("ID proveedor").setText(String.valueOf(factura.getProveedoresByIdProveedor())));
+        Element facturaElement = new Element("Factura");
+        facturaElement.addContent(new Element("Id").setText(String.valueOf(factura.getIdFactura())));
+
+        String idCliente = String.valueOf(factura.getClientesByIdCliente().getIdCliente());
+        String idProveedor = String.valueOf(factura.getProveedoresByIdProveedor().getIdProveedor());
+
+        facturaElement.addContent(new Element("Id_Cliente").setText(idCliente));
+        facturaElement.addContent(new Element("Id_proveedor").setText(idProveedor));
         facturaElement.addContent(new Element("Total").setText(String.valueOf(factura.getMonto())));
         facturas.addContent(facturaElement);
 
