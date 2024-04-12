@@ -8,7 +8,28 @@
 <body>
 
 
-<header th:replace="~{fragments/header :: header}"></header>
+
+<header class="header">
+
+    <div class="contenedor contenedor--header">
+        <div class="barra">
+            <a class="logo" href="index.html">
+                <h1 class="logo__nombre no-margin centrar-texto">Facturacion<span class="logo__bold">FB</span> </h1>
+            </a>
+
+            <nav class="navegacion">
+                <a href="/proveedores/new" class="navegacion__enlace">REGISTRARSE</a>
+                <a href="../static/index.html" class="navegacion__enlace">INICIAR SESION</a>
+                <a href="/admin" class="navegacion__enlace">PROVEEDORES</a>
+                <a href="../static/about.html" class="navegacion__enlace">ACERCA DE</a>
+            </nav>
+
+
+        </div>
+
+    </div>
+
+</header>
 
 <div class="contenedor contenido-principal">
 
@@ -54,7 +75,7 @@
 
 
 
-<footer th:replace="~{fragments/footer :: footer}"></footer>
+
 
 
 </body>

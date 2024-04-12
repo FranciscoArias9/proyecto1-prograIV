@@ -21,7 +21,10 @@
     <input type="text" id="clave" th:field="*{clave}" required/><br/>
 
     <label for="tipo">Tipo:</label>
-    <input type="text" id="tipo" th:field="*{tipo}" required/><br/>
+    <select class="boton boton--primario" id="tipo" name="tipo" th:field="*{tipo}" required>
+        <option value="Bienes">Bienes</option>
+        <option value="Servicios">Servicios</option>
+    </select><br>
 
     <label for="usuario">Usuario:</label>
     <input type="text" id="usuario" th:field="*{usuario}" required/><br/>
@@ -30,7 +33,6 @@
 </form>
 </div>
 
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>

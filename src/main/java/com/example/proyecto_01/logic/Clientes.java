@@ -1,6 +1,7 @@
 package com.example.proyecto_01.logic;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -11,6 +12,7 @@ public class Clientes {
     @Id
     @Column(name = "id_cliente")
     private int idCliente;
+
     @Basic
     @Column(name = "nombre")
     private String nombre;
