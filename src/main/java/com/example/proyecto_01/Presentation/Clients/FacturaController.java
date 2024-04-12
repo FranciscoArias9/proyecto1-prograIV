@@ -44,7 +44,7 @@ public class FacturaController {
     private PDFService pdfService = new PDFService();
 
 
-    List<Productos> listaItems = new ArrayList<>(); //lista de los productos que se van a comprar
+    //List<Productos> listaItems = new ArrayList<>(); //lista de los productos que se van a comprar
     List<Detalle_Factura> listaDetalleFactura = new ArrayList<>();
 
     @GetMapping("/facturas/new")
@@ -55,7 +55,7 @@ public class FacturaController {
         model.addAttribute("clientes", clienteService.findAllClientes()); // Añadir la lista de clientes al modelo
         model.addAttribute("proveedores", proveedorService.findAllProveedores()); // Añadir la lista de proveedores al modelo
         model.addAttribute("productos", productoService.findProductosByProveedor((Proveedores) session.getAttribute("proveedor"))); //Agregar la lista de productos al modelo
-        model.addAttribute("listaItems", listaItems);
+        //model.addAttribute("listaItems", listaItems);
         model.addAttribute("listaDetalles", listaDetalleFactura);
 
         if(session.getAttribute("clienteFactura")==null) {
@@ -72,7 +72,7 @@ public class FacturaController {
     public String registrarFactura(Facturas factura,HttpSession session, Model model) {
         Clientes cliente = (Clientes) session.getAttribute("clienteFactura");
         if(listaDetalleFactura.isEmpty()){ //en caso de que no se pueda
-            listaDetalleFactura.clear();
+            //listaDetalleFactura.clear();
             Clientes c = new Clientes();
             c.setUsuario("NULL");
             session.setAttribute("clienteFactura", c); //tener cuidado al llamar este metodo por esta razon/ fixed
@@ -85,11 +85,11 @@ public class FacturaController {
 
         facturaService.saveFactura(factura);
 
-        for(int i = 0; i < listaItems.size(); i++){
+        for(int i = 0; i < listaDetalleFactura.size(); i++){
             listaDetalleFactura.get(i).setFactura(factura);
             detalleFacturaService.saveDetalleFactura(listaDetalleFactura.get(i));
         }
-        listaItems.clear();
+        //listaItems.clear();
         listaDetalleFactura.clear();
 
         Clientes c = new Clientes();
@@ -100,7 +100,7 @@ public class FacturaController {
     }
     double calcularMonto(){
         double monto = 0;
-        for(int i = 0; i < listaItems.size(); i++){
+        for(int i = 0; i < listaDetalleFactura.size(); i++){
             Double valor = (Double) listaDetalleFactura.get(i).getProducto().getValor();
             int cant = listaDetalleFactura.get(i).getCantidad();
             monto += valor*cant;
@@ -112,14 +112,16 @@ public class FacturaController {
 
     @PostMapping("/facturas/add_Item")
     public String registrarDetalleFactura(@ModelAttribute("productoByIdProducto") Productos producto, @RequestParam("cantidad") int cantidad, Model model) {
-        System.out.println("--------------: " + producto.getNombre());
-        System.out.println("--------------:" + cantidad);
-        Detalle_Factura detalleFactura = new Detalle_Factura();
-        detalleFactura.setCantidad(cantidad);
-        detalleFactura.setProducto(producto);
-        detalleFactura.setPrecioUnitario(10.0);
-        listaItems.add(producto);
-        listaDetalleFactura.add(detalleFactura);
+        if(producto.getNombre()!=null) {
+            System.out.println("--------------: " + producto.getNombre());
+            System.out.println("--------------:" + cantidad);
+            Detalle_Factura detalleFactura = new Detalle_Factura();
+            detalleFactura.setCantidad(cantidad);
+            detalleFactura.setProducto(producto);
+            detalleFactura.setPrecioUnitario(10.0);
+            //listaItems.add(producto);
+            listaDetalleFactura.add(detalleFactura);
+        }
 
         //listaDetalleFactura.add();
         //detalleFactura.setFactura(n);
@@ -236,26 +238,31 @@ public class FacturaController {
     @PostMapping("/buscarCliente")
     public String buscarCliente(@RequestParam("clienteID") int clienteID, HttpSession session, Model model) {
         Clientes cliente = clienteService.findClienteById(clienteID);
-        session.setAttribute("clienteFactura", cliente);
+        if(cliente!=null) {
+            session.setAttribute("clienteFactura", cliente);
+        }else{
+            Clientes c = new Clientes();
+            c.setUsuario("NULL");
+            session.setAttribute("clienteFactura", c); //tener cuidado al llamar este metodo por esta razon/ fixed
+        }
 
-        model.addAttribute("listaItems", listaItems);
+        //model.addAttribute("listaItems", listaItems);
         model.addAttribute("listaDetalles", listaDetalleFactura);
-
-        System.out.println(cliente.getNombre());
-        System.out.println("BUSCANDO");
-
 
         return "registrar_factura"; //dudoso
     }
     @PostMapping("/buscarProducto")
     public String buscarProducto(@RequestParam("productoID") int productoId){
         Productos producto = productoService.findById(productoId);
-        Detalle_Factura detalleFactura = new Detalle_Factura();
-        detalleFactura.setCantidad(1);
-        detalleFactura.setProducto(producto);
-        detalleFactura.setPrecioUnitario(10.0);
-        listaItems.add(producto);
-        listaDetalleFactura.add(detalleFactura);
+        if(producto!=null){
+            Detalle_Factura detalleFactura = new Detalle_Factura();
+            detalleFactura.setCantidad(1);
+            detalleFactura.setProducto(producto);
+            detalleFactura.setPrecioUnitario(10.0);
+            //listaItems.add(producto);
+            listaDetalleFactura.add(detalleFactura);
+            System.out.println("SI LO ENCONTRO\n\n\n\n\n\n\n");
+        }else System.out.println("NO LO ENCONTRO\n\n\n\n\n\n\n");
         return "redirect:/facturas/new";
     }
 
