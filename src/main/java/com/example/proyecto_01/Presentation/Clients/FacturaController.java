@@ -3,42 +3,20 @@ package com.example.proyecto_01.Presentation.Clients;
 
 import com.example.proyecto_01.logic.*;
 import com.example.proyecto_01.logic.Services.*;
-import com.itextpdf.text.Document;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-
-
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-
-//import javax.xml.bind.JAXBContext;
-//import javax.xml.bind.JAXBException;
-//import javax.xml.bind.Marshaller;
-//import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.transform.stream.StreamResult;
-
 
 
 import java.io.ByteArrayOutputStream;
@@ -63,6 +41,7 @@ public class FacturaController {
     private DetalleFacturaService detalleFacturaService;
 
     private XMLService xmlService = new XMLService();
+    private PDFService pdfService = new PDFService();
 
 
     List<Productos> listaItems = new ArrayList<>(); //lista de los productos que se van a comprar
@@ -213,7 +192,7 @@ public class FacturaController {
     public void descargarPdf(@PathVariable Long id, HttpServletResponse response) {
         try {
             Facturas factura = facturaService.findFacturaById(id); // Línea completada aquí
-            ByteArrayOutputStream baos = generarPdf(factura);
+            ByteArrayOutputStream baos = pdfService.generarPdf(factura);
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=factura-" + id + ".pdf");
             response.getOutputStream().write(baos.toByteArray());
@@ -222,51 +201,10 @@ public class FacturaController {
         }
     }
 
-    private ByteArrayOutputStream generarPdf(Facturas factura) {
-        // Crear un stream para guardar el PDF
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        // Crear un documento PDF
-        Document document = new Document();
-        try {
-            PdfWriter.getInstance(document, byteArrayOutputStream);
-            document.open();
-            // Aquí es donde añades contenido al documento. Por ejemplo:
-            document.add(new Paragraph("Factura ID: " + factura.getIdFactura()));
-            document.add(new Paragraph("Cliente: " + factura.getClientesByIdCliente().getNombre()));
-            // Supongamos que tienes un método que calcula el total y lo obtienes así:
-            // double total = calcularTotal(factura);
-            document.add(new Paragraph("Total: " + factura.getMonto()));
-            // Añadir más información de la factura como sea necesario
-            document.close();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        return byteArrayOutputStream;
-    }
 
-    private String generarXml(Facturas factura)  {
 
-        //JAXBContext context = JAXBContext.newInstance(Facturas.class);
-        //Marshaller marshaller = context.createMarshaller();
-        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        StringWriter writer = new StringWriter();
-
-        //marshaller.marshal(factura, writer);
-        //return writer.toString();
-
-        // Convertir el objeto a XML
-        //String xml = Jaxb2Marshaller.toXml(factura);
-
-        // Establecer headers de la respuesta
-        //response.setContentType("application/xml");
-        //response.setHeader("Content-Disposition", "attachment; filename=\"mi-archivo.xml\"");
-
-        // Escribir el XML en la respuesta
-        //response.getWriter().write(xml);
-        return "";
-    }
     @GetMapping("/factura/{id}/descargarXML")
-    public void downloadFactura(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public void generarXml(@PathVariable Long id, HttpServletResponse response) throws IOException {
         // Generar el documento XML
         Facturas factura = facturaService.findFacturaById(id);
         org.jdom2.Document xmlDocument = xmlService.generarDocumentoXML(factura);
@@ -287,38 +225,6 @@ public class FacturaController {
     }
 
 
-    @GetMapping("/factusra/{id}/descargarXML")
-    public void descargarXml(@PathVariable Long id, HttpServletResponse response) {
-        try {
-            // Buscar la factura por ID
-            Facturas factura = facturaService.findFacturaById(id);
-            if (factura == null) {
-                // Manejo en caso de que la factura no se encuentre
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Factura no encontrada con ID: " + id);
-                return;
-            }
-
-            // Generar el contenido XML de la factura
-            String xmlContent = generarXml(factura);
-
-            // Configurar la respuesta para la descarga del archivo XML
-            response.setContentType("application/xml");
-            response.setHeader("Content-Disposition", "attachment; filename=factura-" + id + ".xml");
-
-            // Enviar el contenido XML en la respuesta
-            response.getOutputStream().write(xmlContent.getBytes());
-            response.getOutputStream().flush(); // Asegurarse de que todo el contenido se envíe
-        } catch (Exception e) {
-            // Log del error (cambiar por un logger adecuado en producción)
-            e.printStackTrace();
-            try {
-                // Enviar una respuesta de error en caso de excepción
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al generar el XML");
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-    }
 
     @PostMapping("/buscarCliente")
     public String buscarCliente(@RequestParam("clienteID") int clienteID, HttpSession session, Model model) {
