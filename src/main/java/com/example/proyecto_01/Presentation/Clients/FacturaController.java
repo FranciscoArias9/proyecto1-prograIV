@@ -71,7 +71,7 @@ public class FacturaController {
     @PostMapping("/facturas/add")
     public String registrarFactura(Facturas factura,HttpSession session, Model model) {
         Clientes cliente = (Clientes) session.getAttribute("clienteFactura");
-        if(listaDetalleFactura.isEmpty()){ //en caso de que no se pueda
+        if(listaDetalleFactura.isEmpty() || cliente==null){ //en caso de que no se pueda
             //listaDetalleFactura.clear();
             Clientes c = new Clientes();
             c.setUsuario("NULL");
