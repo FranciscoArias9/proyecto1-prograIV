@@ -37,8 +37,7 @@
                 <input type="submit" class="boton boton--primario" value="Agregar"/>
             </form>
             <a href="/clientes/new" class="boton--primario boton ">Buscar</a>
-            <h4 th:if="${not session.clienteFactura.getUsuario().equals('NULL')}" id="clienteNom"
-                th:text="'Cliente: ' + ${session.clienteFactura.getNombre()}"></h4>
+            <h4 id="clienteNom" th:text="'Cliente: ' + ${session.clienteFactura.getNombre()}"></h4>
         </div>
 
         <div class="divForms">

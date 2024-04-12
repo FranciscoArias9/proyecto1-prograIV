@@ -62,6 +62,8 @@ public class FacturaController {
             Clientes cliente = new Clientes();
             cliente.setUsuario("NULL");
             session.setAttribute("clienteFactura", cliente); //tener cuidado al llamar este metodo por esta razon/ fixed
+
+            System.out.println("SE ENTRO ACA-------------------\n\n\n");
         }
         return "registrar_factura";
     }
@@ -69,9 +71,11 @@ public class FacturaController {
     @PostMapping("/facturas/add")
     public String registrarFactura(Facturas factura,HttpSession session, Model model) {
         Clientes cliente = (Clientes) session.getAttribute("clienteFactura");
-        if(listaDetalleFactura.isEmpty() || cliente.getUsuario().equals("NULL")){ //en caso de que no se pueda
+        if(listaDetalleFactura.isEmpty()){ //en caso de que no se pueda
             listaDetalleFactura.clear();
-            session.setAttribute("clienteFactura", null);//para que cuando recarge se ponga el nuevo cliente
+            Clientes c = new Clientes();
+            c.setUsuario("NULL");
+            session.setAttribute("clienteFactura", c); //tener cuidado al llamar este metodo por esta razon/ fixed
             return "redirect:/facturas/new";
         }
 
@@ -87,7 +91,10 @@ public class FacturaController {
         }
         listaItems.clear();
         listaDetalleFactura.clear();
-        session.setAttribute("clienteFactura", null);//para que cuando recarge se ponga el nuevo cliente
+
+        Clientes c = new Clientes();
+        c.setUsuario("NULL");
+        session.setAttribute("clienteFactura", c); //tener cuidado al llamar este metodo por esta razon/ fixed
 
         return "redirect:/facturas/new";
     }
